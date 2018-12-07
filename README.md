@@ -1,6 +1,6 @@
 # typed-css-modules-webpack-plugin
 
-This is a Webpack plugin to generate TypeScript typing declaration for a TypeScript + CSS Modules
+This is a Webpack plugin to generate TypeScript typing declarations for a TypeScript + CSS Modules
 project. The plugin generates `.css.d.ts` file co-located with the corresponding `.css` file before
 compilation phase so all CSS imports in TypeScript source code type check.
 
@@ -114,7 +114,7 @@ new TypedCSSModulesPlugin({
 
 # License
 
-Copyright (c) 2018 Dropbox, Inc.
+Copyright (c) 2018 Dropbox, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at
