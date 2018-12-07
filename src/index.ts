@@ -1,0 +1,115 @@
+// tslint:disable:no-console no-var-requires no-any
+import chalk from 'chalk';
+import * as fs from 'fs';
+import * as glob from 'glob';
+import {Plugin as PostCssPlugin} from 'postcss';
+import {Tapable} from 'tapable';
+import {promisify} from 'util';
+import {Compiler} from 'webpack';
+
+const cssModuleCore = require('css-modules-loader-core');
+const DtsCreator = require('typed-css-modules');
+const FileSystemLoader = require('typed-css-modules/lib/fileSystemLoader').default;
+
+const globPromise = promisify<string, string[]>(glob);
+const statPromise = promisify(fs.stat);
+
+// Sketchy typing for typed-css-modules
+interface DtsCreator {
+  loader: any;
+  rootDir: string;
+  create(cssFile: string, initialContent?: string, clearCache?: boolean): Promise<DtsContent>;
+}
+
+interface DtsContent {
+  readonly outputFilePath: string;
+  readonly messageList: ReadonlyArray<string>;
+  writeFile(): Promise<this>;
+}
+
+/**
+ * Slightly hacky way to create DtsCreator instance
+ * where we can inject our own set of PostCSS plugins.
+ */
+function createDtsCreator(
+  postCssPlugins: ReadonlyArray<PostCssPlugin<any>>,
+  options: any
+): DtsCreator {
+  const dtsCreator = new DtsCreator(options);
+  dtsCreator.loader = new FileSystemLoader(dtsCreator.rootDir, postCssPlugins);
+  return dtsCreator;
+}
+
+async function writeFile(dtsCreator: DtsCreator, cssFile: string): Promise<void> {
+  // clears cache so that watch mode generates update-to-date typing.
+  const content = await dtsCreator.create(cssFile, undefined, true);
+  await content.writeFile();
+  if (content.messageList.length > 0) {
+    console.warn(chalk.yellow(`[Warn] ${cssFile}`));
+    for (const message of content.messageList) {
+      console.warn(chalk.yellow(`[Warn] ${message}`));
+    }
+    throw new Error(`Failed to generate typing for ${cssFile}`);
+  }
+}
+
+async function generateTypingIfNecessary(dtsCreator: DtsCreator, cssFile: string): Promise<void> {
+  let typingStat: fs.Stats;
+  try {
+    typingStat = await statPromise(cssFile + '.d.ts');
+  } catch (_) {
+    // typing does not exist: generate
+    return writeFile(dtsCreator, cssFile);
+  }
+  const cssFileStat = await statPromise(cssFile);
+  // if file is newer than typing: generate typing
+  if (cssFileStat.mtime.getTime() > typingStat.mtime.getTime()) {
+    return writeFile(dtsCreator, cssFile);
+  }
+}
+
+export interface Options {
+  readonly globPattern: string;
+  readonly postCssPlugins?:
+    | ReadonlyArray<PostCssPlugin<any>>
+    | ((defaults: ReadonlyArray<PostCssPlugin<any>>) => PostCssPlugin<any>[]);
+}
+
+export class TypedCssModulesPlugin implements Tapable.Plugin {
+  private dtsCreator: DtsCreator;
+  private useIncremental = false;
+  private globPattern: string;
+
+  constructor({globPattern, postCssPlugins = cssModuleCore.defaultPlugins}: Options) {
+    this.globPattern = globPattern;
+    if (typeof postCssPlugins === 'function') {
+      postCssPlugins = postCssPlugins(cssModuleCore.defaultPlugins);
+    }
+    this.dtsCreator = createDtsCreator(postCssPlugins, {searchDir: __dirname});
+  }
+
+  apply(compiler: Compiler) {
+    compiler.hooks.run.tapPromise('TypedCssModulesPlugin', async () => {
+      await this.generateCssTypings(this.useIncremental);
+    });
+    // CAVEAT: every time CSS changes, the watch-run is triggered twice:
+    // - one because CSS changes
+    // - one because .css.d.ts is added
+    compiler.hooks.watchRun.tapPromise('TypedCssModulesPlugin', async () => {
+      try {
+        // first time this event is triggered, we do a full build instead of incremental build.
+        await this.generateCssTypings(this.useIncremental);
+      } catch (err) {
+        console.log(chalk.bold.red(err.toString()));
+      } finally {
+        this.useIncremental = true;
+      }
+    });
+  }
+
+  private async generateCssTypings(incremental: boolean) {
+    const files = await globPromise(this.globPattern);
+    const doTask = incremental ? generateTypingIfNecessary : writeFile;
+    return Promise.all(files.map(file => doTask(this.dtsCreator, file)));
+  }
+}
