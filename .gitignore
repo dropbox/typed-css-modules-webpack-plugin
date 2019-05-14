@@ -39,3 +39,7 @@ jspm_packages
 test/fixture/*.js
 test/fixture/*.d.ts
 dist/
+
+# Project specific
+test/cases/*/*.css.d.ts
+test/build
