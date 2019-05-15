@@ -1,4 +1,4 @@
-# typed-css-modules-webpack-plugin
+# typed-css-modules-webpack-plugin [![TravisCI Status](https://travis-ci.org/dropbox/typed-css-modules-webpack-plugin.svg?branch=master)](https://travis-ci.org/dropbox/typed-css-modules-webpack-plugin)
 
 This is a Webpack plugin to generate TypeScript typing declarations for a TypeScript + CSS Modules
 project. The plugin generates `.css.d.ts` file co-located with the corresponding `.css` file before
