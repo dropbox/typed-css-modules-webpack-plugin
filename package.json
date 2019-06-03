@@ -1,6 +1,6 @@
 {
   "name": "typed-css-modules-webpack-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate TypeScript typing declarations for your TypeScript + CSS Modules project.",
   "main": "./dist/index.js",
   "typing": "./dist/index.d.ts",
