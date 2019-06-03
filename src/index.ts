@@ -23,7 +23,6 @@ interface DtsCreator {
 
 interface DtsContent {
   readonly outputFilePath: string;
-  readonly messageList: ReadonlyArray<string>;
   writeFile(): Promise<this>;
 }
 
@@ -44,13 +43,6 @@ async function writeFile(dtsCreator: DtsCreator, cssFile: string): Promise<void>
   // clears cache so that watch mode generates update-to-date typing.
   const content = await dtsCreator.create(cssFile, undefined, true);
   await content.writeFile();
-  if (content.messageList.length > 0) {
-    console.warn(chalk.yellow(`[Warn] ${cssFile}`));
-    for (const message of content.messageList) {
-      console.warn(chalk.yellow(`[Warn] ${message}`));
-    }
-    throw new Error(`Failed to generate typing for ${cssFile}`);
-  }
 }
 
 async function generateTypingIfNecessary(dtsCreator: DtsCreator, cssFile: string): Promise<void> {

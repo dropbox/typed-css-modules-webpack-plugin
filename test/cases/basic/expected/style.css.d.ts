@@ -1,1 +1,5 @@
-export const foo: string;
+declare const styles: {
+  readonly "foo": string;
+};
+export = styles;
+
