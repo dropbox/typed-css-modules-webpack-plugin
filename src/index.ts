@@ -1,4 +1,4 @@
-// tslint:disable:no-console no-var-requires no-any
+// tslint:disable:no-console no-any
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as glob from 'glob';
@@ -6,38 +6,11 @@ import {Plugin as PostCssPlugin} from 'postcss';
 import {Tapable} from 'tapable';
 import {promisify} from 'util';
 import {Compiler} from 'webpack';
-
-const cssModuleCore = require('css-modules-loader-core');
-const DtsCreator = require('typed-css-modules');
-const FileSystemLoader = require('typed-css-modules/lib/fileSystemLoader').default;
+import * as cssModuleCore from 'css-modules-loader-core';
+import DtsCreator = require('typed-css-modules');
 
 const globPromise = promisify<string, string[]>(glob);
 const statPromise = promisify(fs.stat);
-
-// Sketchy typing for typed-css-modules
-interface DtsCreator {
-  loader: any;
-  rootDir: string;
-  create(cssFile: string, initialContent?: string, clearCache?: boolean): Promise<DtsContent>;
-}
-
-interface DtsContent {
-  readonly outputFilePath: string;
-  writeFile(): Promise<this>;
-}
-
-/**
- * Slightly hacky way to create DtsCreator instance
- * where we can inject our own set of PostCSS plugins.
- */
-function createDtsCreator(
-  postCssPlugins: ReadonlyArray<PostCssPlugin<any>>,
-  options: any
-): DtsCreator {
-  const dtsCreator = new DtsCreator(options);
-  dtsCreator.loader = new FileSystemLoader(dtsCreator.rootDir, postCssPlugins);
-  return dtsCreator;
-}
 
 async function writeFile(dtsCreator: DtsCreator, cssFile: string): Promise<void> {
   // clears cache so that watch mode generates update-to-date typing.
@@ -63,7 +36,7 @@ async function generateTypingIfNecessary(dtsCreator: DtsCreator, cssFile: string
 export interface Options {
   readonly globPattern: string;
   readonly postCssPlugins?:
-    | ReadonlyArray<PostCssPlugin<any>>
+    | Array<PostCssPlugin<any>>
     | ((defaults: ReadonlyArray<PostCssPlugin<any>>) => PostCssPlugin<any>[]);
 }
 
@@ -77,7 +50,7 @@ export class TypedCssModulesPlugin implements Tapable.Plugin {
     if (typeof postCssPlugins === 'function') {
       postCssPlugins = postCssPlugins(cssModuleCore.defaultPlugins);
     }
-    this.dtsCreator = createDtsCreator(postCssPlugins, {searchDir: __dirname});
+    this.dtsCreator = new DtsCreator({searchDir: __dirname, loaderPlugins: postCssPlugins});
   }
 
   apply(compiler: Compiler) {
