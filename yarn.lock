@@ -4992,10 +4992,10 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typed-css-modules@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.5.1.tgz#9fdd3444172ec8a1f21e7e9c5fa28ef9fab0d2d9"
-  integrity sha512-7wt3NfhrPXEnUguk2qv4YdL1k/G/AI4we9wkbQ2F+ZmMNH2xISMvNR8W46GiJEVE0t4RZHDnxDQGK2RhK4P0Wg==
+typed-css-modules@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.0.tgz#12fedde8f45cc5d9716bf495cc4ae1c9195da34c"
+  integrity sha512-SmbEfvHkaTdEYIzOHMsJ/pWOAknyPWvYFLyQvWfpYF+BOxNHzxruuUIbcS8BWYdnIPuMKxAWHnmAyMY2CjtWhw==
   dependencies:
     "@types/css-modules-loader-core" "^1.1.0"
     camelcase "^5.3.1"
