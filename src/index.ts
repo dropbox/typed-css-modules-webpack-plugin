@@ -7,7 +7,7 @@ import {Tapable} from 'tapable';
 import {promisify} from 'util';
 import {Compiler} from 'webpack';
 import * as cssModuleCore from 'css-modules-loader-core';
-import DtsCreator = require('typed-css-modules');
+import DtsCreator from 'typed-css-modules';
 
 const globPromise = promisify<string, string[]>(glob);
 const statPromise = promisify(fs.stat);
