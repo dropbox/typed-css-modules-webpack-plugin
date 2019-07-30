@@ -4,6 +4,11 @@ This is a Webpack plugin to generate TypeScript typing declarations for a TypeSc
 project. The plugin generates `.css.d.ts` file co-located with the corresponding `.css` file before
 compilation phase so all CSS imports in TypeScript source code type check.
 
+This plugin is different from [typings-for-css-modules-loader][1] and [dts-css-modules-loader][2] in
+that it generates the typings **before** loaders process source files during the compilation. That
+means you can use your TypeScript loader will type check the **up-to-date** typing definitions of your
+CSS modules.
+
 # Installation
 
 ```
@@ -127,3 +132,6 @@ Unless required by applicable law or agreed to in writing, software distributed 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied. See the License for the specific language governing permissions and limitations under the
 License.
+
+[1]: https://github.com/Jimdo/typings-for-css-modules-loader
+[2]: https://github.com/Megaputer/dts-css-modules-loader
