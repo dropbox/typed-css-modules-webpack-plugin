@@ -6,8 +6,7 @@ compilation phase so all CSS imports in TypeScript source code type check.
 
 This plugin is different from [typings-for-css-modules-loader][1] and [dts-css-modules-loader][2] in
 that it generates the typings **before** loaders process source files during the compilation. That
-means you can use your TypeScript loader will type check the **up-to-date** typing definitions of your
-CSS modules.
+means your TypeScript loader will type check the **up-to-date** typing definitions of your CSS modules.
 
 # Installation
 
