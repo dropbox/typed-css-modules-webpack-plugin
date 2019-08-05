@@ -67,7 +67,7 @@ files for all `.css` files in `src/` directory.
 
 The available options for the plugin are:
 
-## `globalPattern: string`
+## `globPattern: string`
 
 This is the glob pattern used to match CSS Modules in the project. The plugin only generates `.d.ts`
 for the matching CSS files. See [node-glob](https://github.com/isaacs/node-glob) for the pattern
