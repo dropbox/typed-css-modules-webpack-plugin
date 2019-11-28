@@ -1,4 +1,5 @@
 // tslint:disable:no-console no-any
+import * as os from 'os';
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as glob from 'glob';
@@ -15,7 +16,13 @@ const statPromise = promisify(fs.stat);
 async function writeFile(dtsCreator: DtsCreator, cssFile: string): Promise<void> {
   // clears cache so that watch mode generates update-to-date typing.
   const content = await dtsCreator.create(cssFile, undefined, true);
-  await content.writeFile();
+  await content.writeFile((definition: string) => {
+    var lines = definition.trim().split(os.EOL);
+    let attributes = lines.slice(1, lines.length-2);
+    attributes.sort();
+    const newLines = [lines[0], ...attributes, ...lines.slice(lines.length-2), '', ''];
+    return newLines.join(os.EOL);
+  });
 }
 
 async function generateTypingIfNecessary(dtsCreator: DtsCreator, cssFile: string): Promise<void> {
