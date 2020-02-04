@@ -1,13 +1,14 @@
 {
   "name": "typed-css-modules-webpack-plugin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Generate TypeScript typing declarations for your TypeScript + CSS Modules project.",
   "main": "./dist/index.js",
   "typing": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepublish": "npm run build",
+    "prerelease": "npm run build",
+    "release": "standard-version",
     "test": "jest"
   },
   "repository": "https://github.com/dropbox/typed-css-modules-webpack-plugin",
@@ -34,6 +35,7 @@
     "css-loader": "^2.1.1",
     "jest": "^24.8.0",
     "rimraf": "^2.6.3",
+    "standard-version": "^7.1.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.0",
     "typescript": "^3.2.1",
