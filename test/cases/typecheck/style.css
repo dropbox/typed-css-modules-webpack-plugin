@@ -1,3 +1,7 @@
 .foo {
   color: rebeccapurple;
 }
+
+.foo-bar {
+  font-family: monospace;
+}
