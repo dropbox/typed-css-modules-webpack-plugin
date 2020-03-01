@@ -45,6 +45,7 @@ export interface Options {
   readonly postCssPlugins?:
     | Array<PostCssPlugin<any>>
     | ((defaults: ReadonlyArray<PostCssPlugin<any>>) => PostCssPlugin<any>[]);
+  readonly camelCase?: boolean;
 }
 
 export class TypedCssModulesPlugin implements Tapable.Plugin {
@@ -52,12 +53,16 @@ export class TypedCssModulesPlugin implements Tapable.Plugin {
   private useIncremental = false;
   private globPattern: string;
 
-  constructor({globPattern, postCssPlugins = cssModuleCore.defaultPlugins}: Options) {
+  constructor({globPattern, postCssPlugins = cssModuleCore.defaultPlugins, camelCase}: Options) {
     this.globPattern = globPattern;
     if (typeof postCssPlugins === 'function') {
       postCssPlugins = postCssPlugins(cssModuleCore.defaultPlugins);
     }
-    this.dtsCreator = new DtsCreator({searchDir: __dirname, loaderPlugins: postCssPlugins});
+    this.dtsCreator = new DtsCreator({
+      searchDir: __dirname,
+      loaderPlugins: postCssPlugins,
+      camelCase,
+    });
   }
 
   apply(compiler: Compiler) {

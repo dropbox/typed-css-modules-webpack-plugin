@@ -116,6 +116,10 @@ new TypedCSSModulesPlugin({
 });
 ```
 
+## `camelCase?: boolean`
+
+This field is optional. When set to `true` the CSS field definitions will be emitted using camel case naming conventions. When `undefined` or `false` the CSS field definitions will be emitted verbatim.
+
 # License
 
 Copyright (c) 2018 Dropbox, Inc.

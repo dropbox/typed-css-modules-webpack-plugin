@@ -1,6 +1,6 @@
 declare const styles: {
   readonly "foo": string;
-  readonly "foo-bar": string;
+  readonly "fooBar": string;
 };
 export = styles;
 
