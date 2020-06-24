@@ -120,6 +120,18 @@ new TypedCSSModulesPlugin({
 
 This field is optional. When set to `true` the CSS field definitions will be emitted using camel case naming conventions. When `undefined` or `false` the CSS field definitions will be emitted verbatim.
 
+## `rootDir?: string`
+
+This field is optional. Project root directory (default: `process.cwd()`).
+
+## `searchDir?: string`
+
+This field is optional. Directory which includes target `*.css` files (default: `'./'`).
+
+## `outDir?: string`
+
+This field is optional. Output directory (default: `option.searchDir`).
+
 # License
 
 Copyright (c) 2018 Dropbox, Inc.
