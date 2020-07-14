@@ -28,7 +28,7 @@
     "@types/css-modules-loader-core": "^1.1.0",
     "@types/glob": "^7.1.1",
     "@types/jest": "^24.0.13",
-    "@types/node": "^10.12.12",
+    "@types/node": "^14.0.23",
     "@types/rimraf": "^2.0.2",
     "@types/tapable": "^1.0.4",
     "@types/webpack": "^4.4.31",
