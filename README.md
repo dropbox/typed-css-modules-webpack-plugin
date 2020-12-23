@@ -1,3 +1,7 @@
+⚠️ **This project is no longer maintained! We recommend you use a separate tool to build type definitions from the CSS modules.**
+
+* * *
+
 # typed-css-modules-webpack-plugin ![Node.js CI](https://github.com/dropbox/typed-css-modules-webpack-plugin/workflows/Node.js%20CI/badge.svg)
 
 This is a Webpack plugin to generate TypeScript typing declarations for a TypeScript + CSS Modules
