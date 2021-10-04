@@ -39,7 +39,7 @@
     "ts-jest": "^26.1.2",
     "ts-loader": "^8.0.0",
     "typescript": "^3.9.6",
-    "webpack": "^4.43.0"
+    "webpack": "^5.56.1"
   },
   "dependencies": {
     "chalk": "^4.1.0",
