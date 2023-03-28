@@ -31,7 +31,7 @@
     "@types/node": "^14.0.23",
     "@types/rimraf": "^3.0.0",
     "@types/tapable": "^1.0.6",
-    "@types/webpack": "^4.41.21",
+    "@types/webpack": "^5.28.1",
     "css-loader": "^5.0.1",
     "jest": "^26.1.0",
     "rimraf": "^3.0.2",
@@ -39,7 +39,7 @@
     "ts-jest": "^26.1.2",
     "ts-loader": "^8.0.0",
     "typescript": "^3.9.6",
-    "webpack": "^4.43.0"
+    "webpack": "^5.76.3"
   },
   "dependencies": {
     "chalk": "^4.1.0",
