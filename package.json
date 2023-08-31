@@ -44,7 +44,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "css-modules-loader-core": "^1.1.0",
-    "glob": "^7.1.6",
+    "glob": "^10.3.4",
     "typed-css-modules": "^0.6.4"
   },
   "engines": {
